@@ -9,8 +9,8 @@ app = Flask(__name__)
 app.config.from_object('config')
 app.secret_key = app.config['SECRET_KEY']
 
-# openssl aes-256-cbc -d -in config.py.enc -out config.py    
-# openssl aes-256-cbc -in config.py -out config.py.enc
+# openssl aes-256-cbc -d -in config.py.enc -out config.py -pass env:CONFIGPASS    
+# openssl aes-256-cbc -in config.py -out config.py.enc -pass env:CONFIGPASS
 
 
 @app.route('/')
@@ -19,7 +19,7 @@ def index():
 
 @app.route('/dashboard')
 def dashboard():
-	return render_template()
+	return render_template('dashboard.html')
 
 def string_generator(data_incoming):
 	data = data_incoming.copy()
