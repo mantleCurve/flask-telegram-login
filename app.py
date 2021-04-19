@@ -33,16 +33,16 @@ def string_generator(data_incoming):
 
 @app.route('/login')
 def login():
-	print( app.config['BOT_TOKEN'])
 	tg_data = {
 		"id" : request.args.get('id',None),
 		"first_name" : request.args.get('first_name',None),
 		"last_name" : request.args.get('last_name', None),
 		"username" : request.args.get('username', None),
-		"photo_url" : request.args.get('photo_url',None),
 		"auth_date":  request.args.get('auth_date', None),
 		"hash" : request.args.get('hash',None)
 	}
+	print(tg_data)
+	print( app.config['BOT_TOKEN'])
 	data_check_string = string_generator(tg_data)
 	secret_key = hashlib.sha256(app.config['BOT_TOKEN'].encode('utf-8')).digest()
 	secret_key_bytes = secret_key
