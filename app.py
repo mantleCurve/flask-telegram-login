@@ -9,13 +9,11 @@ app = Flask(__name__)
 app.config.from_object('config')
 app.secret_key = app.config['SECRET_KEY']
 
-# openssl aes-256-cbc -d -in config.py.enc -out config.py -pass env:CONFIGPASS    
-# openssl aes-256-cbc -in config.py -out config.py.enc -pass env:CONFIGPASS
-
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+	data = {'bot_name': app.config['BOT_NAME'], 'bot_domain': app.config['BOT_DOMAIN']}
+	return render_template('index.html',data = data)
 
 @app.route('/dashboard')
 def dashboard():
@@ -41,8 +39,6 @@ def login():
 		"auth_date":  request.args.get('auth_date', None),
 		"hash" : request.args.get('hash',None)
 	}
-	print(tg_data)
-	print( app.config['BOT_TOKEN'])
 	data_check_string = string_generator(tg_data)
 	secret_key = hashlib.sha256(app.config['BOT_TOKEN'].encode('utf-8')).digest()
 	secret_key_bytes = secret_key
@@ -59,4 +55,4 @@ def login():
 
 
 if __name__ == '__main__':
-	app.run(host="0.0.0.0",debug=True)
+	app.run(host="0.0.0.0",debug=True, port=8080)
